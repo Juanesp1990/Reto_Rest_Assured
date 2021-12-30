@@ -5,7 +5,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
+
 
 import static io.restassured.RestAssured.given;
 
@@ -16,7 +18,7 @@ public class PeticionesStepDefinition extends ReqresIn {
 
     private RequestSpecification requestUpdate;
     private Response responseUpdate;
-
+    private static final Logger LOGGER = Logger.getLogger(PeticionesStepDefinition.class);
 
     @Given("el usuario está en la página de creacion de un nuevo registro e ingresa el nombre {string} y el campo trabajo {string}")
     public void elUsuarioEstAEnLaPaginaDeCreacionDeUnNuevoRegistroEIngresaElNombreYElCampoTrabajo (String nombre, String categoriaTrabajo) {
@@ -28,6 +30,8 @@ public class PeticionesStepDefinition extends ReqresIn {
                     "}");
 
         }catch (Exception e){
+            LOGGER.warn(e.getMessage());
+            Assertions.fail();
 
         }
 
@@ -40,6 +44,8 @@ public class PeticionesStepDefinition extends ReqresIn {
             responseCreate = requestCreate.post(RESOURCE_CREATE);
 
         }catch (Exception e){
+            LOGGER.warn(e.getMessage());
+            Assertions.fail();
 
         }
 
@@ -56,6 +62,8 @@ public class PeticionesStepDefinition extends ReqresIn {
             Assertions.assertEquals("\"name\":\"morpheus\",\"job\":\"leader\"", mensaje.substring(1, 33));
 
         }catch (Exception e){
+            LOGGER.warn(e.getMessage());
+            Assertions.fail();
 
         }
 
@@ -72,6 +80,8 @@ public class PeticionesStepDefinition extends ReqresIn {
                     "}");
 
         }catch (Exception e){
+            LOGGER.warn(e.getMessage());
+            Assertions.fail();
 
         }
 
@@ -83,6 +93,8 @@ public class PeticionesStepDefinition extends ReqresIn {
             responseCreate = requestUpdate.put(RESOURCE_UPDATE);
 
         }catch (Exception e){
+            LOGGER.warn(e.getMessage());
+            Assertions.fail();
 
         }
 
@@ -92,7 +104,6 @@ public class PeticionesStepDefinition extends ReqresIn {
     @Then("el usuario deberá ver un codigo de respuesta éxitoso y los datos actualizados")
     public void elUsuarioDeberaVerUnCodigoDeRespuestaExitosoYLosDatosActualizados () {
         try {
-
             String mensaje = responseCreate
                     .then()
                     .extract()
@@ -101,6 +112,8 @@ public class PeticionesStepDefinition extends ReqresIn {
             Assertions.assertEquals("\"name\":\"morpheus\",\"job\":\"zion resident\"", mensaje.substring(1, 40));
 
         } catch (Exception e) {
+            LOGGER.warn(e.getMessage());
+            Assertions.fail();
 
         }
 
